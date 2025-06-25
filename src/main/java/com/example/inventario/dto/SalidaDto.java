@@ -1,45 +1,21 @@
-package com.example.inventario.model;
+package com.example.inventario.dto;
 
-import jakarta.persistence.*;
 import java.time.LocalDateTime;
 
-@Entity
-public class Salida {
+public class SalidaDto {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer idSalida;
-
-    @ManyToOne
-    @JoinColumn(name = "producto_id", nullable = false)
-    private Producto producto;
-
+    private Integer productoId;
     private LocalDateTime fechaSalida;
-
     private int cantidad;
-
     private double precioUnitario;
-
     private String metodoInventario;
 
-    public Salida() {}
-
-    // Getters y Setters
-
-    public Integer getIdSalida() {
-        return idSalida;
+    public Integer getProductoId() {
+        return productoId;
     }
 
-    public void setIdSalida(Integer idSalida) {
-        this.idSalida = idSalida;
-    }
-
-    public Producto getProducto() {
-        return producto;
-    }
-
-    public void setProducto(Producto producto) {
-        this.producto = producto;
+    public void setProductoId(Integer productoId) {
+        this.productoId = productoId;
     }
 
     public LocalDateTime getFechaSalida() {

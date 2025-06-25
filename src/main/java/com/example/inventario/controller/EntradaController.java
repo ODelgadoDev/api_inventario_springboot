@@ -27,6 +27,19 @@ public class EntradaController {
         return entradaRepository.findAll();
     }
 
+    // GET → Buscar una entrada por ID
+    @GetMapping("/{id}")
+    public Entrada buscarEntradaPorId(@PathVariable Integer id) {
+        return entradaRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Entrada no encontrada con ID " + id));
+    }
+
+    // DELETE → Eliminar una entrada
+    @DeleteMapping("/{id}")
+    public void eliminarEntrada(@PathVariable Integer id) {
+        entradaRepository.deleteById(id);
+    }
+
     @PostMapping
     public Entrada crearEntrada(@RequestBody EntradaDto entradaDto) {
 

@@ -37,21 +37,24 @@ public class ProductoController {
     // PUT → Actualizar un producto
     @PutMapping("/{id}")
     public Producto actualizarProducto(@PathVariable Integer id, @RequestBody Producto productoActualizado) {
-        return productoRepository.findById(id)
-                .map(producto -> {
-                    producto.setNombre(productoActualizado.getNombre());
-                    producto.setDescripcion(productoActualizado.getDescripcion());
-                    producto.setPrecio(productoActualizado.getPrecio());
-                    producto.setCantidad(productoActualizado.getCantidad());
-                    producto.setCategoria(productoActualizado.getCategoria());
-                    return productoRepository.save(producto);
-                })
-                .orElseThrow(() -> new RuntimeException("Producto no encontrado con ID " + id));
+        Producto productoExistente = productoRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Producto con ID " + id + " no encontrado."));
+
+        productoExistente.setNombre(productoActualizado.getNombre());
+        productoExistente.setDescripcion(productoActualizado.getDescripcion());
+        productoExistente.setPrecio(productoActualizado.getPrecio());
+        productoExistente.setCantidad(productoActualizado.getCantidad());
+        productoExistente.setCategoria(productoActualizado.getCategoria());
+
+        return productoRepository.save(productoExistente);
     }
 
-    // DELETE → Eliminar producto
+    // DELETE → Eliminar un producto
     @DeleteMapping("/{id}")
     public void eliminarProducto(@PathVariable Integer id) {
+        if (!productoRepository.existsById(id)) {
+            throw new RuntimeException("Producto con ID " + id + " no encontrado.");
+        }
         productoRepository.deleteById(id);
     }
 }
