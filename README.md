@@ -49,3 +49,5 @@ También permite registrar las entradas y salidas de productos actualizando auto
 1. Clona este repositorio:
    ```bash
    git clone git@github.com:ODelgadoDev/api_inventario_springboot.git
+   
+semifinal
