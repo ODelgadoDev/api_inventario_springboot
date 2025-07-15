@@ -27,14 +27,12 @@ public class EntradaController {
         return entradaRepository.findAll();
     }
 
-    // GET → Buscar una entrada por ID
     @GetMapping("/{id}")
     public Entrada buscarEntradaPorId(@PathVariable Integer id) {
         return entradaRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Entrada no encontrada con ID " + id));
     }
 
-    // DELETE → Eliminar una entrada
     @DeleteMapping("/{id}")
     public void eliminarEntrada(@PathVariable Integer id) {
         entradaRepository.deleteById(id);
@@ -42,7 +40,7 @@ public class EntradaController {
 
     @PostMapping
     public Entrada crearEntrada(@RequestBody EntradaDto entradaDto) {
-
+        // 1. Buscar producto
         Optional<Producto> productoOptional = productoRepository.findById(entradaDto.getProductoId());
         if (productoOptional.isEmpty()) {
             throw new RuntimeException("Producto con ID " + entradaDto.getProductoId() + " no encontrado.");
@@ -50,6 +48,12 @@ public class EntradaController {
 
         Producto producto = productoOptional.get();
 
+        // 2. Actualizar stock del producto
+        int nuevaCantidad = producto.getCantidad() + entradaDto.getCantidad();
+        producto.setCantidad(nuevaCantidad);
+        productoRepository.save(producto);
+
+        // 3. Guardar la entrada
         Entrada entrada = new Entrada();
         entrada.setProducto(producto);
         entrada.setFechaEntrada(entradaDto.getFechaEntrada());

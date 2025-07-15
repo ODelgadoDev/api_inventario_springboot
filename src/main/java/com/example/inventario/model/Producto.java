@@ -1,5 +1,6 @@
 package com.example.inventario.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 
 @Entity
@@ -7,26 +8,30 @@ public class Producto {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @JsonProperty("id")
     private Integer idProducto;
 
     @Column(nullable = false)
+    @JsonProperty("name")
     private String nombre;
 
+    @JsonProperty("description")
     private String descripcion;
 
     @Column(nullable = false)
+    @JsonProperty("price")
     private Double precio;
 
     @Column(nullable = false)
+    @JsonProperty("cantidad")
     private Integer cantidad;
 
+    @JsonProperty("category")
     private String categoria;
 
-    // Constructor vacío
     public Producto() {}
 
-    // Getters y Setters:
-
+    // Getters and Setters
     public Integer getIdProducto() {
         return idProducto;
     }

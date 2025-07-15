@@ -41,8 +41,7 @@ public class UsuarioController {
         }
 
         // Hashear la contraseña antes de guardar
-        String hash = passwordEncoder.encode(usuario.getContrasenaHash());
-        usuario.setContrasenaHash(hash);
+        usuario.setContrasenaHash(passwordEncoder.encode(usuario.getContrasenaHash()));
 
         Usuario guardado = usuarioRepository.save(usuario);
         return ResponseEntity.ok(guardado);

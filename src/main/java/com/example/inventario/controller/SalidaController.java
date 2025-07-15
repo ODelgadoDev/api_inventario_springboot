@@ -1,5 +1,6 @@
 package com.example.inventario.controller;
 
+import com.example.inventario.dto.SalidaDto;
 import com.example.inventario.model.Salida;
 import com.example.inventario.model.Producto;
 import com.example.inventario.repository.SalidaRepository;
@@ -26,23 +27,31 @@ public class SalidaController {
         return salidaRepository.findAll();
     }
 
-    // POST → Crear una nueva salida
+    // POST → Crear una nueva salida usando DTO
     @PostMapping
-    public Salida crearSalida(@RequestBody Salida salida) {
+    public Salida crearSalida(@RequestBody SalidaDto salidaDto) {
 
-        // Verificamos si el producto existe
-        Producto producto = productoRepository.findById(salida.getProducto().getIdProducto())
-                .orElseThrow(() -> new RuntimeException("Producto con ID " + salida.getProducto().getIdProducto() + " no encontrado."));
+        // Verificar si existe el producto
+        Producto producto = productoRepository.findById(salidaDto.getProductoId())
+                .orElseThrow(() -> new RuntimeException("Producto con ID " + salidaDto.getProductoId() + " no encontrado."));
 
-        // Actualizamos el stock del producto (restamos la cantidad salida)
-        if (producto.getCantidad() < salida.getCantidad()) {
+        // Validar stock suficiente
+        if (producto.getCantidad() < salidaDto.getCantidad()) {
             throw new RuntimeException("No hay suficiente stock del producto.");
         }
 
-        producto.setCantidad(producto.getCantidad() - salida.getCantidad());
+        // Actualizar stock
+        producto.setCantidad(producto.getCantidad() - salidaDto.getCantidad());
         productoRepository.save(producto);
 
-        // Guardamos la salida
+        // Crear y guardar la salida
+        Salida salida = new Salida();
+        salida.setProducto(producto);
+        salida.setFechaSalida(salidaDto.getFechaSalida());
+        salida.setCantidad(salidaDto.getCantidad());
+        salida.setPrecioUnitario(salidaDto.getPrecioUnitario());
+        salida.setMetodoInventario(salidaDto.getMetodoInventario());
+
         return salidaRepository.save(salida);
     }
 

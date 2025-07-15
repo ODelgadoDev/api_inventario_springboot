@@ -1,7 +1,7 @@
 package com.example.inventario.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
-
 import java.time.LocalDateTime;
 
 @Entity
@@ -9,25 +9,29 @@ public class Entrada {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @JsonProperty("id")
     private Integer idEntrada;
 
     @ManyToOne
     @JoinColumn(name = "producto_id", nullable = false)
+    @JsonProperty("product")
     private Producto producto;
 
+    @JsonProperty("date")
     private LocalDateTime fechaEntrada;
 
+    @JsonProperty("quantity")
     private int cantidad;
 
+    @JsonProperty("unitCost")
     private double costoUnitario;
 
+    @JsonProperty("inventoryMethod")
     private String metodoInventario;
 
-    // Constructor vacío
     public Entrada() {}
 
-    // Getters y Setters
-
+    // Getters and Setters
     public Integer getIdEntrada() {
         return idEntrada;
     }
