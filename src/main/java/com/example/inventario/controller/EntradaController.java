@@ -41,21 +41,22 @@ public class EntradaController {
     @PostMapping
     public Entrada crearEntrada(@RequestBody EntradaDto entradaDto) {
         // 1. Buscar producto
-        Optional<Producto> productoOptional = productoRepository.findById(entradaDto.getProductoId());
-        if (productoOptional.isEmpty()) {
-            throw new RuntimeException("Producto con ID " + entradaDto.getProductoId() + " no encontrado.");
+        Producto producto = productoRepository.findById(entradaDto.getProductoId())
+                .orElseThrow(() -> new RuntimeException("Producto con ID " + entradaDto.getProductoId() + " no encontrado."));
+
+        // 2. Validar campos obligatorios para evitar error de integridad
+        if (producto.getCostoUnitario() == null || producto.getPrecioUnitario() == null) {
+            throw new RuntimeException("El producto no tiene definidos costoUnitario o precioUnitario.");
         }
 
-        Producto producto = productoOptional.get();
-
-        // 2. Actualizar stock del producto
-        int nuevaCantidad = producto.getCantidad() + entradaDto.getCantidad();
-        producto.setCantidad(nuevaCantidad);
+        // 3. Actualizar stock del producto
+        producto.setCantidad(producto.getCantidad() + entradaDto.getCantidad());
         productoRepository.save(producto);
 
-        // 3. Guardar la entrada
+        // 4. Crear entrada y asignar solo el ID del producto (evita errores por mapeo incompleto)
         Entrada entrada = new Entrada();
-        entrada.setProducto(producto);
+        entrada.setProducto(new Producto());
+        entrada.getProducto().setIdProducto(producto.getIdProducto()); // solo el ID
         entrada.setFechaEntrada(entradaDto.getFechaEntrada());
         entrada.setCantidad(entradaDto.getCantidad());
         entrada.setCostoUnitario(entradaDto.getCostoUnitario());

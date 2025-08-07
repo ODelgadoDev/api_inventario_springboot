@@ -4,10 +4,12 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 
 @Entity
+@Table(name = "producto")
 public class Producto {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id_producto")
     @JsonProperty("id")
     private Integer idProducto;
 
@@ -18,9 +20,13 @@ public class Producto {
     @JsonProperty("description")
     private String descripcion;
 
-    @Column(nullable = false)
-    @JsonProperty("price")
-    private Double precio;
+    @Column(name = "precio_unitario", nullable = false)
+    @JsonProperty("unitPrice")
+    private Double precioUnitario;
+
+    @Column(name = "costo_unitario", nullable = false)
+    @JsonProperty("unitCost")
+    private Double costoUnitario;
 
     @Column(nullable = false)
     @JsonProperty("cantidad")
@@ -29,9 +35,10 @@ public class Producto {
     @JsonProperty("category")
     private String categoria;
 
+    // Constructor vacío
     public Producto() {}
 
-    // Getters and Setters
+    // Getters y Setters
     public Integer getIdProducto() {
         return idProducto;
     }
@@ -56,12 +63,20 @@ public class Producto {
         this.descripcion = descripcion;
     }
 
-    public Double getPrecio() {
-        return precio;
+    public Double getPrecioUnitario() {
+        return precioUnitario;
     }
 
-    public void setPrecio(Double precio) {
-        this.precio = precio;
+    public void setPrecioUnitario(Double precioUnitario) {
+        this.precioUnitario = precioUnitario;
+    }
+
+    public Double getCostoUnitario() {
+        return costoUnitario;
+    }
+
+    public void setCostoUnitario(Double costoUnitario) {
+        this.costoUnitario = costoUnitario;
     }
 
     public Integer getCantidad() {

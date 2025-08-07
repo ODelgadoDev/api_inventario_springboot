@@ -42,7 +42,8 @@ public class ProductoController {
 
         productoExistente.setNombre(productoActualizado.getNombre());
         productoExistente.setDescripcion(productoActualizado.getDescripcion());
-        productoExistente.setPrecio(productoActualizado.getPrecio());
+        productoExistente.setCostoUnitario(productoActualizado.getCostoUnitario());
+        productoExistente.setPrecioUnitario(productoActualizado.getPrecioUnitario());
         productoExistente.setCantidad(productoActualizado.getCantidad());
         productoExistente.setCategoria(productoActualizado.getCategoria());
 

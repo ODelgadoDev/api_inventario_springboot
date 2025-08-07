@@ -3,20 +3,27 @@ package com.example.inventario.model;
 import jakarta.persistence.*;
 
 @Entity
+@Table(name = "usuario") // Asegúrate de mapear también la tabla
 public class Usuario {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id_usuario")
     private Integer idUsuario;
 
+    @Column(name = "nombres")
     private String nombres;
+
+    @Column(name = "apellidos")
     private String apellidos;
 
-    @Column(unique = true)
+    @Column(name = "nombre_usuario", unique = true)
     private String nombreUsuario;
 
+    @Column(name = "contrasena_hash")
     private String contrasenaHash;
 
+    @Column(name = "rol")
     private String rol;
 
     // ----- Getters y Setters manuales -----

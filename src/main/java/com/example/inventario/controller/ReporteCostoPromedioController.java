@@ -1,0 +1,28 @@
+package com.example.inventario.controller;
+
+import com.example.inventario.service.CostoPromedioService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.web.bind.annotation.*;
+
+import java.time.LocalDateTime;
+import java.util.List;
+import java.util.Map;
+
+@RestController
+@RequestMapping("/api/reportes")
+@CrossOrigin(origins = "*")
+public class ReporteCostoPromedioController {
+
+    @Autowired
+    private CostoPromedioService costoPromedioService;
+
+    @GetMapping("/promedio")
+    public List<Map<String, Object>> getReporteCostoPromedio(
+            @RequestParam(required = false) Integer productoId,
+            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime desde,
+            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime hasta
+    ) {
+        return costoPromedioService.generarReporteCostoPromedio(productoId, desde, hasta);
+    }
+}

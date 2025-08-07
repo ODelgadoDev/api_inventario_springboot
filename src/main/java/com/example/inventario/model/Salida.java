@@ -5,10 +5,12 @@ import jakarta.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
+@Table(name = "Salida")
 public class Salida {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id_salida")
     @JsonProperty("id")
     private Integer idSalida;
 
@@ -17,21 +19,25 @@ public class Salida {
     @JsonProperty("product")
     private Producto producto;
 
+    @Column(name = "fecha_salida")
     @JsonProperty("date")
     private LocalDateTime fechaSalida;
 
+    @Column(name = "cantidad")
     @JsonProperty("quantity")
     private int cantidad;
 
+    @Column(name = "precio_unitario")
     @JsonProperty("unitPrice")
     private double precioUnitario;
 
+    @Column(name = "metodo_inventario")
     @JsonProperty("inventoryMethod")
     private String metodoInventario;
 
     public Salida() {}
 
-    // Getters and Setters
+    // Getters y Setters
     public Integer getIdSalida() {
         return idSalida;
     }

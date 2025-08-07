@@ -50,4 +50,4 @@ También permite registrar las entradas y salidas de productos actualizando auto
    ```bash
    git clone git@github.com:ODelgadoDev/api_inventario_springboot.git
    
-semifinal
+final
